@@ -1,11 +1,11 @@
 import { API_URL } from "@/shared/config";
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, CreateAxiosDefaults } from "axios";
 
-class ApiClient {
+export class ApiClient {
   private axios: AxiosInstance;
 
-  constructor(url?: string, config: CreateAxiosDefaults = {}) {
-    const baseURL = url || config.baseURL || API_URL
+  constructor(url: string, config: CreateAxiosDefaults = {}) {
+    const baseURL = url
     this.axios = axios.create({
       baseURL,
       headers: {
@@ -61,4 +61,4 @@ class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient();
+export const apiClient = new ApiClient(API_URL);

@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { POST_KEY } from "@/shared/config/query-keys";
 import { apiClient } from "@/shared/api/base";
 
 import { Post } from "../model/types";
 import { mapPost } from "../lib/map-post";
 import { PostDto } from "./types";
 
+const BASE_URL = '/posts'
+
+
 const keys = {
-  post: (id?: string) => [POST_KEY, id],
+  root: () => [BASE_URL, 'detail'],
+  post: (id?: string) => [...keys.root(), id],
 }
 
-const BASE_URL = '/posts'
 
 type Options = {
   id?: string

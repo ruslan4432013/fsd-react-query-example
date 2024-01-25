@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { mapCollection } from "@/shared/lib/map-collection";
-import { POST_KEY } from "@/shared/config/query-keys";
 import { apiClient } from "@/shared/api/base";
 
 import { Post } from "../model/types";
 import { mapPost } from "../lib/map-post";
 import { PostDto } from "./types";
 
+const BASE_URL = '/posts'
+
 const keys = {
-  posts: (page?: string) => [POST_KEY, page].filter(Boolean),
+  posts: (page?: string) => [BASE_URL, page].filter(Boolean),
 }
 
-const BASE_URL = '/posts'
 
 type Options = {
   page?: string
