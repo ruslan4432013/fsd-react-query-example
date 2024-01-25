@@ -34,9 +34,9 @@ export const useDetailPost = (options: Options) => {
   const { id } = options
   return useQuery({
     queryKey: keys.post(id),
-    queryFn: ({ queryKey }) => {
+    queryFn: () => {
       return getPost({
-        id: queryKey[1]
+        id
       })
     }
   })
