@@ -10,7 +10,8 @@ import { PostDto } from "./types";
 const BASE_URL = '/posts'
 
 const keys = {
-  posts: (page?: string) => [BASE_URL, page].filter(Boolean),
+  root: () => [BASE_URL],
+  posts: (page?: string) => [...keys.root(), page].filter(Boolean),
 }
 
 
