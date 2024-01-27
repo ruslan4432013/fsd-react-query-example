@@ -26,7 +26,7 @@ const getPosts = async ({ page }: Options): Promise<Post[]> => {
 }
 
 
-export const usePosts = (options?: Options) => {
+export const usePostsQuery = (options?: Options) => {
   const { page } = options ?? {}
   return useQuery({
     queryKey: keys.posts(page),

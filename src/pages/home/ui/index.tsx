@@ -1,7 +1,7 @@
 import { postApi, PostCard } from "@/entities/post";
 
 export const HomePage = () => {
-  const postResult = postApi.usePosts()
+  const postResult = postApi.usePostsQuery()
 
   if (postResult.isLoading) {
     return <div>Loading...</div>

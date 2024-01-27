@@ -7,7 +7,7 @@ type Params = {
 
 export const PostPage = () => {
   const { postId } = useParams<Params>();
-  const { data, error, isLoading, isError } = postApi.useDetailPost({ id: postId })
+  const { data, error, isLoading, isError } = postApi.useDetailPostQuery({ id: postId })
 
   if (isLoading) {
     return <div>Loading...</div>

@@ -30,7 +30,7 @@ const getPost = async ({ id }: Options): Promise<Post | null> => {
 }
 
 
-export const useDetailPost = (options: Options) => {
+export const useDetailPostQuery = (options: Options) => {
   const { id } = options
   return useQuery({
     queryKey: keys.post(id),
