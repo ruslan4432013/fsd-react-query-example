@@ -1,43 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { mapCollection } from "@/shared/lib/map-collection";
 import { apiClient } from "@/shared/api/base";
 
-import { Post } from "../model/types";
-import { mapPost } from "../lib/map-post";
-import { PostDto } from "./types";
+import { PostWithPaginationDto } from "./dto/post-with-pagination.dto";
+import { PostQuery } from "./query/post.query";
+import { mapPost } from "./mapper/map-post";
+import { PostWithPagination } from "../model/post-with-pagination";
 
 const BASE_URL = '/posts'
 
-const keys = {
-  root: () => [BASE_URL],
-  posts: (page?: string) => [...keys.root(), page].filter(Boolean),
-}
+const calculatePostPage = (totalCount: number, limit: number) => Math.floor(totalCount / limit)
 
+export const getPosts = async (page: number, limit: number): Promise<PostWithPagination> => {
+  const skip = page * limit
+  const query: PostQuery = { skip, limit }
+  const result = await apiClient.get<PostWithPaginationDto>(BASE_URL, query)
 
-type Options = {
-  page?: string
-}
-
-const getPosts = async ({ page }: Options): Promise<Post[]> => {
-  const url = `${BASE_URL}?page=${page}`
-  const result = await apiClient.get<PostDto[]>(url)
-  return mapCollection(result, mapPost)
-}
-
-
-export const usePostsQuery = (options?: Options) => {
-  const { page } = options ?? {}
-  return useQuery({
-    queryKey: keys.posts(page),
-    queryFn: () => {
-      return getPosts({
-        page
-      })
-    }
+  return ({
+    posts: result.posts.map(post => mapPost(post)),
+    limit: result.limit,
+    skip: result.skip,
+    total: result.total,
+    totalPages: calculatePostPage(result.total, limit)
   })
 }
-
-
-
-

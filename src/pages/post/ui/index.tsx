@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { postApi } from '@/entities/post'
+import { useQuery } from "@tanstack/react-query";
 
 type Params = {
   postId: string
@@ -7,27 +8,33 @@ type Params = {
 
 export const PostPage = () => {
   const { postId } = useParams<Params>();
-  const { data, error, isLoading, isError } = postApi.useDetailPostQuery({ id: postId })
+  const id = parseInt(postId || '')
+  const {
+    data: post,
+    error,
+    isLoading,
+    isError
+  } = useQuery(postApi.postQueries.detail({ id }))
 
   if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if (isError) {
+  if (isError || !post) {
     return <>{error?.message}</>
   }
 
-  const { id, title, body, userId } = data ?? {}
-
   return (
     <div>
-      <p>Post id: {id}</p>
+      <p>Post id: {post.id}</p>
       <div>
-        <h1>{title}</h1>
-        <p>{body}</p>
+        <h1>{post.title}</h1>
+        <div>
+          <p>{post.body}</p>
+        </div>
       </div>
       <div>
-        Owner: {userId}
+        Owner: {post.userId}
       </div>
     </div>
   )

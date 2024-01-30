@@ -1,63 +1,53 @@
 import { API_URL } from "@/shared/config";
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, CreateAxiosDefaults } from "axios";
 
 export class ApiClient {
-  private axios: AxiosInstance;
+  private baseUrl: string;
 
-  constructor(url: string, config: CreateAxiosDefaults = {}) {
-    const baseURL = url
-    this.axios = axios.create({
-      baseURL,
+  constructor(url: string) {
+    this.baseUrl = url
+  }
+
+  async handleResponse<TResult>(response: Response): Promise<TResult> {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    try {
+      return await response.json();
+    } catch (error) {
+      throw new Error('Error parsing JSON response');
+    }
+  }
+
+  public async get<TResult = unknown>(endpoint: string, queryParams?: Record<string, string | number>): Promise<TResult> {
+    const url = new URL(endpoint, this.baseUrl);
+
+    if (queryParams) {
+      Object.entries(queryParams).forEach(([key, value]) => {
+        url.searchParams.append(key, value.toString());
+      });
+    }
+
+    const response = await fetch(url.toString(), {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      ...config,
     });
+
+    return this.handleResponse<TResult>(response);
   }
 
-  public async get<TResponse>(endpoint: string, options: AxiosRequestConfig = {}): Promise<TResponse> {
-    const response: AxiosResponse<TResponse> = await this.axios.get(
-      endpoint,
-      options
-    );
-    return response.data;
-  }
+  public async post<TResult = unknown, TData = Record<string, unknown>>(endpoint: string, body: TData): Promise<TResult> {
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
 
-  public async post<TResponse, TData = unknown>(
-    endpoint: string,
-    data: TData,
-    options: AxiosRequestConfig = {}
-  ): Promise<TResponse> {
-    const response: AxiosResponse<TResponse> = await this.axios.post(
-      endpoint,
-      data,
-      options
-    );
-    return response.data;
-  }
-
-  public async put<TResponse, TData = unknown>(
-    endpoint: string,
-    data: TData,
-    options: AxiosRequestConfig = {}
-  ): Promise<TResponse> {
-    const response: AxiosResponse<TResponse> = await this.axios.put(
-      endpoint,
-      data,
-      options
-    );
-    return response.data;
-  }
-
-  public async delete<T>(
-    endpoint: string,
-    options: AxiosRequestConfig = {}
-  ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axios.delete(
-      endpoint,
-      options
-    );
-    return response.data;
+    return this.handleResponse<TResult>(response);
   }
 }
 

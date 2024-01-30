@@ -10,15 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.6",
     "@tanstack/react-query": "^5.17.19",
-    "axios": "^1.6.6",
+    "@tanstack/react-query-devtools": "^5.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
+    "tss-react": "^4.9.3",
     "vite-tsconfig-paths": "^4.3.1"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",

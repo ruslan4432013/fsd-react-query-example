@@ -1,47 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { apiClient } from "@/shared/api/base";
 
-import { Post } from "../model/types";
-import { mapPost } from "../lib/map-post";
-import { PostDto } from "./types";
+import { PostDetailQuery } from "./query/post.query";
+import { mapDetailPost } from "./mapper/map-post";
+import { DetailPostDto } from "./dto/detail-post.dto";
+import { DetailPost } from "../model/detail-post";
 
 const BASE_URL = '/posts'
 
-
-const keys = {
-  root: () => [BASE_URL, 'detail'],
-  post: (id?: string) => [...keys.root(), id],
-}
-
-
-type Options = {
-  id?: string
-}
-
-const getPost = async ({ id }: Options): Promise<Post | null> => {
+export const getDetailPost = async ({ id }: PostDetailQuery): Promise<DetailPost | null> => {
   if (!id) {
     return null
   }
 
   const url = `${BASE_URL}/${id}`
-  const result = await apiClient.get<PostDto>(url)
-  return mapPost(result)
+  const result = await apiClient.get<DetailPostDto>(url)
+
+  return mapDetailPost(result)
 }
-
-
-export const useDetailPostQuery = (options: Options) => {
-  const { id } = options
-  return useQuery({
-    queryKey: keys.post(id),
-    queryFn: () => {
-      return getPost({
-        id
-      })
-    }
-  })
-}
-
-
-
-

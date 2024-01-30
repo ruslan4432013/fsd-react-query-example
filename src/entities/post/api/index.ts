@@ -1,2 +1,1 @@
-export * from './get-posts'
-export * from './get-detail-post'
+export { postQueries } from './post.queries'
