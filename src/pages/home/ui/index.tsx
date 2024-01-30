@@ -4,6 +4,7 @@ import { PostsSkeleton } from "./posts.skeleton";
 import { Posts } from "./posts";
 import { useStyles } from "./styles";
 import { usePageParam } from "../lib/use-page-param";
+import { useQuery } from "@tanstack/react-query";
 
 
 const DEFAULT_PAGE = 1
@@ -13,7 +14,7 @@ export const HomePage = () => {
   const itemsOnScreen = DEFAULT_ITEMS_ON_SCREEN
 
   const [page, setPage] = usePageParam(DEFAULT_PAGE)
-  const { data, isFetching, isLoading } = postApi.usePosts(page, itemsOnScreen)
+  const { data, isFetching, isLoading } = useQuery(postApi.postQueries.list(page, itemsOnScreen))
   const { classes } = useStyles({ isFetching })
 
   return (
