@@ -1,10 +1,9 @@
 import { postApi } from "@/entities/post";
-import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress, Pagination } from "@mui/material";
-import { useState } from "react";
 import { PostsSkeleton } from "./posts.skeleton";
 import { Posts } from "./posts";
 import { useStyles } from "./styles";
+import { usePageParam } from "../lib/use-page-param";
 
 
 const DEFAULT_PAGE = 1
@@ -13,8 +12,8 @@ const DEFAULT_ITEMS_ON_SCREEN = 9
 export const HomePage = () => {
   const itemsOnScreen = DEFAULT_ITEMS_ON_SCREEN
 
-  const [page, setPage] = useState(DEFAULT_PAGE)
-  const { data, isFetching, isLoading } = useQuery(postApi.postQueries.list(page, itemsOnScreen))
+  const [page, setPage] = usePageParam(DEFAULT_PAGE)
+  const { data, isFetching, isLoading } = postApi.usePosts(page, itemsOnScreen)
   const { classes } = useStyles({ isFetching })
 
   return (
