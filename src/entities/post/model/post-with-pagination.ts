@@ -1,4 +1,9 @@
-import { PaginationResult } from "@/shared/api/pagination.interface";
 import { Post } from "./post";
 
-export type PostWithPagination = PaginationResult<'posts', Post>
+export type PostWithPagination = {
+  posts: Post[]
+  total: number
+  totalPages: number
+  skip: number
+  limit: number
+}
