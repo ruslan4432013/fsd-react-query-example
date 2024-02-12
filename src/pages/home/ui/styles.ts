@@ -15,6 +15,11 @@ export const useStyles = tss
       minHeight: 500,
       marginBottom: 25
     },
+    create_post_button: {
+      marginBottom: 10,
+      display: 'block',
+      textAlign: 'center'
+    },
     backdrop: {
       position: 'absolute',
       opacity: isFetching ? 1 : 0,

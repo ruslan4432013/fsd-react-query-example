@@ -1,10 +1,11 @@
 import { postApi } from "@/entities/post";
-import { Box, CircularProgress, Pagination } from "@mui/material";
+import { Box, Button, CircularProgress, Pagination } from "@mui/material";
 import { PostsSkeleton } from "./posts.skeleton";
 import { Posts } from "./posts";
 import { useStyles } from "./styles";
 import { usePageParam } from "../lib/use-page-param";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 
 const DEFAULT_PAGE = 1
@@ -19,6 +20,14 @@ export const HomePage = () => {
 
   return (
     <Box className={classes.root}>
+
+      <Button
+        component={Link}
+        to={'/create-post'}
+        className={classes.create_post_button}
+        variant='contained'>
+        Create post
+      </Button>
       <Box className={classes.post_wrapper}>
         {isLoading ? (
           <PostsSkeleton limit={itemsOnScreen}/>

@@ -2,10 +2,11 @@ import { Post } from "../../types";
 import { PostDto } from "../dto/post.dto";
 import { DetailPostDto } from "../dto/detail-post.dto";
 import { DetailPost } from "../../model/detail-post";
+import { CreatePostRdo } from "../rdo/create-post.rdo";
 
-export const mapPost = (dto: PostDto): Post => ({
+export const mapPost = (dto: PostDto | CreatePostRdo): Post => ({
   title: dto.title,
-  id: dto.id,
+  id: +dto.id.toString(),
 })
 
 export const mapDetailPost = (dto: DetailPostDto): DetailPost => ({
