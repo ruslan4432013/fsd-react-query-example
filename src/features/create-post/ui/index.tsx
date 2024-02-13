@@ -1,9 +1,9 @@
 import { TextField } from "@mui/material";
 import { useStyles } from './styles'
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { Post, postApi } from '@/entities/post'
+import { Post } from '@/entities/post'
 import { LoadingButton } from "@mui/lab";
+import { useCreatePost } from "../api/use-create-post";
 
 
 const DEFAULT_USER_ID = '4'
@@ -15,7 +15,7 @@ type Props = {
 export const CreatePostForm = ({ onCreate }: Props) => {
   const { classes } = useStyles()
   const [title, setTitle] = useState('')
-  const { mutateAsync, isPending } = useMutation(postApi.postQueries.create())
+  const { mutateAsync, isPending } = useCreatePost()
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value)

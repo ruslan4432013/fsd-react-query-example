@@ -50,3 +50,38 @@
         ├── config/             #         Сегмент: Конфигурация приложения (API_URL, env_vars, ...)
         └── lib/                #         Сегмент: Инфраструктурная логика приложения (utils/helpers)
 ```
+
+# 1.1 Когда ключи в слое entities
+
+```
+└── src/                   
+    ├── entities/               
+    |   ├── {entity}/          
+    |   ...    └── api/            
+    |               ├── `{entity}.query`     # query-factory (см. раздел с query-factory)
+    |               ├── `get-{entity}`       # функции работы с сущностью
+    |               ├── `create-{entity}`    
+    |               ├── `delete-{entity}`    
+    |               ├── `update-{entity}`    
+    |               ...                      
+    └── shared/                  
+        ...       
+```
+
+
+
+# 1.1 Когда ключи в shared слое 
+
+```
+└── src/
+   ...   
+    |   
+    └── shared/                  
+         ├── api/      
+        ...   ├── queries/                   # query-factories (см. раздел с query-factory)
+              |      ├── document.ts          
+              |      ├── background-job.ts  
+              |     ...
+             ...                             # организация запросов по усмотрению
+
+```
